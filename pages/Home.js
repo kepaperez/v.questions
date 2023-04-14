@@ -1,9 +1,12 @@
 import { View, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from "react-native"
 import { useState, useEffect } from "react";
-
+import Question from "./Question";
 
 const Home = () => {
-    const [questions, setQuestions] = useState([]);
+    const [questions, setQuestions] = useState([{ "answers": [" Yun-Fat Chow", "Bruce Lee", "Jackie Chan", "Jet Li"], "correctAnswer": "Bruce Lee", "question": "Who starred in the film 1973 movie \"Enter The Dragon\"?" }, { "answers": ["Bashbug", "Heartbleed", "Shellshock", "Stagefright"], "correctAnswer": "Shellshock", "question": "What was the name of the security vulnerability found in Bash in 2014?" }, { "answers": ["American", "British", "German", "Polish"], "correctAnswer": "German", "question": "The creator of the Enigma Cypher and Machine was of what nationality?" }, { "answers": ["Leni", "Lincoln", "Luan", "Luna"], "correctAnswer": "Leni", "question": "Who is the \"dumb blonde\" character in Nickelodeon's \"The Loud House\"?" }, { "answers": ["England", "France", "Portugal", "Spain"], "correctAnswer": "Spain", "question": "Against which country did the Dutch Republic fight the Eighty Years' War?" }]);
+
+
+    const [selectedAnswer, setSelectedAnswer] = useState([]);
 
     function decodeHtmlEntities(text) {
         const entities = [
@@ -21,45 +24,48 @@ const Home = () => {
         });
     }
 
-    useEffect(() => {
-        fetch('https://opentdb.com/api.php?amount=5&type=multiple')
-            .then((response) => response.json())
-            .then((data) => {
-                const triviaQuestions = data.results.map((triviaQuestion) => ({
-                    question: decodeHtmlEntities(triviaQuestion.question),
-                    answers: [
-                        ...triviaQuestion.incorrect_answers,
-                        triviaQuestion.correct_answer,
-                    ].sort(),
-                    correctAnswer: triviaQuestion.correct_answer,
-                }));
-                setQuestions(triviaQuestions);
-            });
-    }, []);
+    /* useEffect(() => {
+         fetch('https://opentdb.com/api.php?amount=5&type=multiple')
+             .then((response) => response.json())
+             .then((data) => {
+                 const triviaQuestions = data.results.map((triviaQuestion) => ({
+                     question: decodeHtmlEntities(triviaQuestion.question),
+                     answers: [
+                         ...triviaQuestion.incorrect_answers,
+                         triviaQuestion.correct_answer,
+                     ].sort(),
+                     correctAnswer: triviaQuestion.correct_answer,
+                 }));
+                 setQuestions(triviaQuestions);
+                 console.log(triviaQuestions)
+             });
+     }, []);*/
 
 
-
+    const pressButton = (question, answers, index) => {
+        if (question.correctAnswer === answers) {
+            console.log("CORRECT")
+            setSelectedAnswer([...selectedAnswer, { index: index, response: "correct" }])
+        } else {
+            setSelectedAnswer([...selectedAnswer, { index: index, response: "wrong" }])
+        }
+    }
 
 
 
     return (
-        <View style={styles.mainCtn}>
-            <ScrollView>
-                {questions.map((q) => (
-                    <View style={styles.questionCtn}>
-                        <Text style={styles.questionText}>{q.question}</Text>
-                        {
-                            q.answers.map((a) => (
-                                <TouchableOpacity style={styles.answersBtn}>
-                                    <Text style={styles.answerText}>{a}</Text>
-                                </TouchableOpacity>
+        <ScrollView>
+            <View style={styles.mainCtn}>
+                <View><Text style={styles.answerText}>
+                    {JSON.stringify(selectedAnswer)}
+                </Text></View>
 
-                            ))
-                        }
-                    </View>
-                ))}
-            </ScrollView>
-        </View>
+                {questions.map((q, index) => (
+                    <Question question={q} />
+                ))
+                }
+            </View >
+        </ScrollView >
     );
 }
 const styles = StyleSheet.create({
