@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 const Question = ({ question }) => {
+    
     return (
         <View style={styles.questionCtn}>
             <Text style={styles.questionText}>{question.question}</Text>
@@ -8,6 +9,8 @@ const Question = ({ question }) => {
                 question.answers.map((a) => (
                     <TouchableOpacity style={[
                         styles.answersBtn,
+                      question ? styles.correct : styles.wrong
+                      
                     ]} >
                         <Text style={styles.answerText}>{a}</Text>
                     </TouchableOpacity>
@@ -18,6 +21,12 @@ const Question = ({ question }) => {
     )
 }
 const styles = StyleSheet.create({
+    correct:{
+        backgroundColor:'green'
+    },
+    wrong:{
+        backgroundColor:'red'
+    },
     answersBtn: {
         paddingHorizontal: 20,
         paddingVertical: 10,
