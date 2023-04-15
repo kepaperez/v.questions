@@ -37,13 +37,7 @@ const styles = StyleSheet.create({
     wrong:{
         backgroundColor:'red'
     },
-    answersBtn: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        backgroundColor: '#007af5',
-        marginVertical: 10,
-        borderRadius: 10,
-    },
+
     mainCtn: {
         padding: 15,
         backgroundColor: '#303030'
@@ -61,6 +55,13 @@ const styles = StyleSheet.create({
 
     selectedAnswerButton: {
         backgroundColor: '#1E90FF',
+    },
+    answersBtn: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: '#007af5',
+        marginVertical: 10,
+        borderRadius: 10,
     },
     answerText: {
         fontSize: 16,

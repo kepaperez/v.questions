@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Question from "./Question";
 import Response from "./Response";
 const Home = () => {
-    const [questions, setQuestions] = useState([{ "answers": [" Yun-Fat Chow", "Bruce Lee", "Jackie Chan", "Jet Li"], "correctAnswer": "Bruce Lee", "question": "Who starred in the film 1973 movie \"Enter The Dragon\"?" }, { "answers": ["Bashbug", "Heartbleed", "Shellshock", "Stagefright"], "correctAnswer": "Shellshock", "question": "What was the name of the security vulnerability found in Bash in 2014?" }, { "answers": ["American", "British", "German", "Polish"], "correctAnswer": "German", "question": "The creator of the Enigma Cypher and Machine was of what nationality?" }, { "answers": ["Leni", "Lincoln", "Luan", "Luna"], "correctAnswer": "Leni", "question": "Who is the \"dumb blonde\" character in Nickelodeon's \"The Loud House\"?" }, { "answers": ["England", "France", "Portugal", "Spain"], "correctAnswer": "Spain", "question": "Against which country did the Dutch Republic fight the Eighty Years' War?" }]);
+    const [questions, setQuestions] = useState([]);
     const [qIndex, setQIndex] = useState(0);
 
     const [selectedAnswer, setSelectedAnswer] = useState([]);
@@ -24,9 +24,13 @@ const Home = () => {
             return found ? found[1] : match;
         });
     }
+    const restart =()=>{
+        setScore(0)
+        setQIndex(0)
+    }
 
-    /* useEffect(() => {
-         fetch('https://opentdb.com/api.php?amount=5&type=multiple')
+    useEffect(() => {
+         fetch('https://opentdb.com/api.php?amount=5&category=18')
              .then((response) => response.json())
              .then((data) => {
                  const triviaQuestions = data.results.map((triviaQuestion) => ({
@@ -40,17 +44,10 @@ const Home = () => {
                  setQuestions(triviaQuestions);
                  console.log(triviaQuestions)
              });
-     }, []);*/
+     }, []);
 
 
-    const pressButton = (question, answers, index) => {
-        if (question.correctAnswer === answers) {
-            console.log("CORRECT")
-            setSelectedAnswer([...selectedAnswer, { index: index, response: "correct" }])
-        } else {
-            setSelectedAnswer([...selectedAnswer, { index: index, response: "wrong" }])
-        }
-    }
+
 
 
 
@@ -76,9 +73,12 @@ const Home = () => {
                         YOUR SCORE:{score}/5
                     </Text>
                     {questions.map((q, index) => (
-                        <Response key={index} question={q}  />
+                        <Response key={index} question={q} />
                     ))
                     }
+                    <TouchableOpacity style={styles.rsBtn} onPress={restart} >
+                        <Text style={styles.rsText}>RESTART</Text>
+                    </TouchableOpacity>
                 </View>
 
 
@@ -120,6 +120,19 @@ const styles = StyleSheet.create({
     },
     dataCtn: {
         paddingVertical: 25,
-    }
+    },
+    rsBtn: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: '#007af5',
+        marginVertical: 10,
+        borderRadius: 10,
+       
+    },
+    rsText: {
+        fontSize: 16,
+        color: 'white',
+        textAlign:'center',
+    },
 });
 export default Home
