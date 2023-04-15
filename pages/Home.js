@@ -1,12 +1,13 @@
 import { View, Text, Button, StyleSheet, TouchableOpacity, ScrollView } from "react-native"
 import { useState, useEffect } from "react";
 import Question from "./Question";
-
+import Response from "./Response";
 const Home = () => {
     const [questions, setQuestions] = useState([{ "answers": [" Yun-Fat Chow", "Bruce Lee", "Jackie Chan", "Jet Li"], "correctAnswer": "Bruce Lee", "question": "Who starred in the film 1973 movie \"Enter The Dragon\"?" }, { "answers": ["Bashbug", "Heartbleed", "Shellshock", "Stagefright"], "correctAnswer": "Shellshock", "question": "What was the name of the security vulnerability found in Bash in 2014?" }, { "answers": ["American", "British", "German", "Polish"], "correctAnswer": "German", "question": "The creator of the Enigma Cypher and Machine was of what nationality?" }, { "answers": ["Leni", "Lincoln", "Luan", "Luna"], "correctAnswer": "Leni", "question": "Who is the \"dumb blonde\" character in Nickelodeon's \"The Loud House\"?" }, { "answers": ["England", "France", "Portugal", "Spain"], "correctAnswer": "Spain", "question": "Against which country did the Dutch Republic fight the Eighty Years' War?" }]);
-
+    const [qIndex, setQIndex] = useState(0);
 
     const [selectedAnswer, setSelectedAnswer] = useState([]);
+    const [score, setScore] = useState(0)
 
     function decodeHtmlEntities(text) {
         const entities = [
@@ -54,18 +55,42 @@ const Home = () => {
 
 
     return (
-        <ScrollView>
-            <View style={styles.mainCtn}>
-                <View><Text style={styles.answerText}>
-                    {JSON.stringify(selectedAnswer)}
-                </Text></View>
 
-                {questions.map((q, index) => (
+        <View style={styles.mainCtn}>
+
+            {qIndex < questions.length ?
+                <>
+                    <View style={styles.dataCtn}>
+                        <Text style={styles.indexText}>
+                            QUESTION: {
+                                qIndex != 5 ? qIndex + 1 : qIndex}/5
+                        </Text>
+
+                    </View>
+                    <Question question={questions[qIndex]} setQIndex={setQIndex} setScore={setScore} />
+                </>
+
+                :
+                <View>
+                    <Text style={styles.indexText}>
+                        YOUR SCORE:{score}/5
+                    </Text>
+                    {questions.map((q, index) => (
+                        <Response key={index} question={q}  />
+                    ))
+                    }
+                </View>
+
+
+            }
+
+
+            {/* {questions.map((q, index) => (
                     <Question question={q} />
                 ))
-                }
-            </View >
-        </ScrollView >
+                }*/}
+        </View >
+
     );
 }
 const styles = StyleSheet.create({
@@ -77,26 +102,24 @@ const styles = StyleSheet.create({
         borderRadius: 10,
     },
     mainCtn: {
+        height: '100%',
         padding: 15,
-        backgroundColor: '#303030'
+        backgroundColor: '#303030',
+        textAlign: 'center',
     },
     questionCtn: {
         marginVertical: 15,
     },
-    questionText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 20,
-        color: 'white',
 
-    },
-
-    selectedAnswerButton: {
-        backgroundColor: '#1E90FF',
-    },
-    answerText: {
-        fontSize: 16,
+    indexText: {
+        padding: 10,
+        fontSize: 24,
+        fontWeight: '600',
         color: 'white',
+        textAlign: 'center',
     },
+    dataCtn: {
+        paddingVertical: 25,
+    }
 });
 export default Home
