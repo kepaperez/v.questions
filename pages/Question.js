@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#303030'
     },
     questionCtn: {
-        marginVertical: 15,
+        margin: 15,
     },
     questionText: {
         fontSize: 16,

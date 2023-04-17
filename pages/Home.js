@@ -25,6 +25,7 @@ const Home = () => {
         });
     }
     const restart = () => {
+        setSelectedAnswer([])
         setScore(0)
         setQIndex(0)
     }
@@ -98,8 +99,11 @@ const Home = () => {
     );
 }
 const styles = StyleSheet.create({
+    finalCtn:{
+        paddingHorizontal:15,
+    },
     scroll:{
-        marginBottom:100,
+        height:'80%',
     },
     answersBtn: {
         paddingHorizontal: 20,
@@ -110,7 +114,7 @@ const styles = StyleSheet.create({
     },
     mainCtn: {
         height: '100%',
-        padding: 15,
+        paddingVertical: 15,
         backgroundColor: '#303030',
         textAlign: 'center',
     },
@@ -134,6 +138,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#007af5',
         marginVertical: 10,
         borderRadius: 10,
+        margin:15,
 
     },
     rsText: {
