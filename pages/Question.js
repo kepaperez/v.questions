@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
-const Question = ({ question,setQIndex ,setScore}) => {
+const Question = ({ question,setQIndex ,setScore,setSelectedAnswer}) => {
  
     const onPress = (a,index)=>{
+        setSelectedAnswer(prevCount => [...prevCount,a])
       if(question.correctAnswer === a){
         setScore(prevCount => prevCount + 1)
       }

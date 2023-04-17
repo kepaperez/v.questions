@@ -24,27 +24,27 @@ const Home = () => {
             return found ? found[1] : match;
         });
     }
-    const restart =()=>{
+    const restart = () => {
         setScore(0)
         setQIndex(0)
     }
 
     useEffect(() => {
-         fetch('https://opentdb.com/api.php?amount=5&category=18')
-             .then((response) => response.json())
-             .then((data) => {
-                 const triviaQuestions = data.results.map((triviaQuestion) => ({
-                     question: decodeHtmlEntities(triviaQuestion.question),
-                     answers: [
-                         ...triviaQuestion.incorrect_answers,
-                         triviaQuestion.correct_answer,
-                     ].sort(),
-                     correctAnswer: triviaQuestion.correct_answer,
-                 }));
-                 setQuestions(triviaQuestions);
-                 console.log(triviaQuestions)
-             });
-     }, []);
+        fetch('https://opentdb.com/api.php?amount=5&category=18')
+            .then((response) => response.json())
+            .then((data) => {
+                const triviaQuestions = data.results.map((triviaQuestion) => ({
+                    question: decodeHtmlEntities(triviaQuestion.question),
+                    answers: [
+                        ...triviaQuestion.incorrect_answers,
+                        triviaQuestion.correct_answer,
+                    ].sort(),
+                    correctAnswer: triviaQuestion.correct_answer,
+                }));
+                setQuestions(triviaQuestions);
+                console.log(triviaQuestions)
+            });
+    }, []);
 
 
 
@@ -64,7 +64,7 @@ const Home = () => {
                         </Text>
 
                     </View>
-                    <Question question={questions[qIndex]} setQIndex={setQIndex} setScore={setScore} />
+                    <Question question={questions[qIndex]} setQIndex={setQIndex} setSelectedAnswer={setSelectedAnswer} setScore={setScore} />
                 </>
 
                 :
@@ -72,10 +72,14 @@ const Home = () => {
                     <Text style={styles.indexText}>
                         YOUR SCORE:{score}/5
                     </Text>
-                    {questions.map((q, index) => (
-                        <Response key={index} question={q} />
-                    ))
-                    }
+                    <ScrollView style={styles.scroll}>
+                        {questions.map((q, index) => (
+                            <Response key={index} selectedAnswer={selectedAnswer[index]} question={q} />
+                        ))
+                        }
+                    </ScrollView>
+
+                  
                     <TouchableOpacity style={styles.rsBtn} onPress={restart} >
                         <Text style={styles.rsText}>RESTART</Text>
                     </TouchableOpacity>
@@ -94,6 +98,9 @@ const Home = () => {
     );
 }
 const styles = StyleSheet.create({
+    scroll:{
+        marginBottom:100,
+    },
     answersBtn: {
         paddingHorizontal: 20,
         paddingVertical: 10,
@@ -127,12 +134,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#007af5',
         marginVertical: 10,
         borderRadius: 10,
-       
+
     },
     rsText: {
         fontSize: 16,
         color: 'white',
-        textAlign:'center',
+        textAlign: 'center',
     },
 });
 export default Home
